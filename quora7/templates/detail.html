@@ -1,0 +1,42 @@
+<!-- detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card mt-4 ">
+            <div class="d-inline p-3 fs-3">
+            <p> Question title - <em>{{ question.title }}</em></p>
+                
+            <p>Question is - <strong> {{ question.body }}</strong> </p>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h4 class="card-title">Answer the Question</h4>
+                <form method="POST" action="{% url 'quorapp:detail' id=question.id %}">
+                    {% csrf_token %}
+                    {{ answer_form.as_p }}
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h4 class="card-title">Answers</h4>
+                {% for answer in answers %}
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ answer.user.username }}</h5>
+                            <p class="card-text">{{ answer.body }}</p>
+                            <p class="card-text"><small class="text-muted">Updated at: {{ answer.updated_at }}</small></p>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No answers yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
